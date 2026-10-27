@@ -31,6 +31,9 @@
           <p v-if="errorNombre()" class="error">
             {{ errorNombre() }}
           </p>
+          <p v-if="esDuplicado()" class="error">
+            Ese estudiante ya existe
+          </p>
         </div>
 
 
@@ -47,6 +50,9 @@
           <p v-if="errorCarrera()" class="error">
             {{ errorCarrera() }}
           </p>
+
+
+
         </div>
 
 
@@ -58,14 +64,58 @@
           <p v-if="errorCalificacion()" class="error">
             {{ errorCalificacion() }}
           </p>
+
         </div>
 
 
-        <button type="submit">
+
+        <button type="submit" :disabled="formularioInvalido()">
           Agregar
         </button>
+
+        <p>Quedan {{ cupoMaximo - estudiantes.length }} lugares</p>
+
       </form>
     </section>
+
+
+
+    <section>
+      <h2>Lista de estudiantes</h2>
+
+      <div v-if="estudiantes.length === 0">
+        Aún no hay estudiantes
+      </div>
+
+      <div v-else>
+        <div v-for="est in estudiantes" :key="est.id">
+          <strong>
+            {{ est.nombre }}
+            <span v-if="est.calificacion === 10">⭐</span>
+          </strong>
+
+          <span> - {{ est.carrera }}</span>
+
+          <span :class="colorNota(est.calificacion)">
+            - Nota: {{ est.calificacion }}
+          </span>
+
+          <button @click="bajarNota(est)" :disabled="est.calificacion === 0">
+            −1
+          </button>
+
+
+          <button @click="subirNota(est)" :disabled="est.calificacion === 10">
+            +1
+          </button>
+
+          <button @click="eliminarEstudiante(est.id)">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </section>
+
   </div>
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
