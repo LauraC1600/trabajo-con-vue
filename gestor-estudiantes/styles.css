@@ -1,0 +1,47 @@
+
+body {
+    font-family: "Krub", sans-serif;
+    margin: 30px;
+    background-color: #f4f6f8;
+}
+
+h1 {
+    color: #3732d7;
+}
+
+section {
+    max-width: 500px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #5c5c5c;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    margin: 0;
+    font-size: 14px;
+}

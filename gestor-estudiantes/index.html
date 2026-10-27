@@ -4,6 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Krub:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,400;1,700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <title>Gestor de Estudiantes</title>
 </head>
@@ -14,9 +19,54 @@
       <h1>Gestor de Estudiantes</h1>
     </header>
 
+    <section>
+      <h2>Registrar estudiante</h2>
 
+      <form @submit.prevent="agregarEstudiante">
+
+        <div>
+          <label for="nombre">Nombre:</label>
+          <input id="nombre" type="text" v-model.trim="nombre" placeholder="Nombre del estudiante">
+
+          <p v-if="errorNombre()" class="error">
+            {{ errorNombre() }}
+          </p>
+        </div>
+
+
+        <div>
+          <label for="carrera">Carrera:</label>
+          <select id="carrera" v-model="carrera">
+            <option value="">Seleccione una carrera</option>
+
+            <option v-for="opcion in carreras" :key="opcion" :value="opcion">
+              {{ opcion }}
+            </option>
+          </select>
+
+          <p v-if="errorCarrera()" class="error">
+            {{ errorCarrera() }}
+          </p>
+        </div>
+
+
+        <div>
+          <label for="calificacion">Calificación:</label>
+          <input id="calificacion" type="number" v-model.number="calificacion" placeholder="Nota de 0 a 10" min="0"
+            max="10" step="any">
+
+          <p v-if="errorCalificacion()" class="error">
+            {{ errorCalificacion() }}
+          </p>
+        </div>
+
+
+        <button type="submit">
+          Agregar
+        </button>
+      </form>
+    </section>
   </div>
-
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
