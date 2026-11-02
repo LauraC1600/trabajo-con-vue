@@ -19,6 +19,17 @@
       <h1>Gestor de Estudiantes</h1>
     </header>
 
+    <section class="resumen">
+      <h2>Resumen del grupo</h2>
+      <p>Total de estudiantes: {{ estudiantes.length }}</p>
+      <p>Promedio: <span :class="{ rojo: promedio() < 6 }">{{ promedio() }}</span></p>
+      <p>Aprobados: {{ totalAprobados() }}</p>
+      <p>Reprobados: {{ totalReprobados() }}</p>
+      <p v-if="mejorEstudiante()">
+        Mejor calificación: {{ mejorEstudiante().nombre }} ({{ mejorEstudiante().calificacion }})
+      </p>
+    </section>
+
     <section>
       <h2>Registrar estudiante</h2>
 
@@ -36,7 +47,6 @@
           </p>
         </div>
 
-
         <div>
           <label for="carrera">Carrera:</label>
           <select id="carrera" v-model="carrera">
@@ -50,11 +60,7 @@
           <p v-if="errorCarrera()" class="error">
             {{ errorCarrera() }}
           </p>
-
-
-
         </div>
-
 
         <div>
           <label for="calificacion">Calificación:</label>
@@ -64,10 +70,7 @@
           <p v-if="errorCalificacion()" class="error">
             {{ errorCalificacion() }}
           </p>
-
         </div>
-
-
 
         <button type="submit" :disabled="formularioInvalido()">
           Agregar
@@ -78,17 +81,36 @@
       </form>
     </section>
 
-
-
     <section>
       <h2>Lista de estudiantes</h2>
 
-      <div v-if="estudiantes.length === 0">
+      <div class="filtros">
+        <select v-model="filtroCarrera">
+          <option value="Todas">Todas</option>
+          <option v-for="opcion in carreras" :key="opcion" :value="opcion">
+            {{ opcion }}
+          </option>
+        </select>
+
+        <input type="text" v-model="busqueda" placeholder="Buscar por nombre">
+
+        <button :class="{ activo: filtroEstado === 'todos' }" @click="cambiarEstado('todos')">Todos</button>
+        <button :class="{ activo: filtroEstado === 'aprobados' }" @click="cambiarEstado('aprobados')">Aprobados</button>
+        <button :class="{ activo: filtroEstado === 'reprobados' }" @click="cambiarEstado('reprobados')">Reprobados</button>
+      </div>
+
+      <p>Mostrando {{ estudiantesFiltrados().length }} de {{ estudiantes.length }} estudiantes</p>
+
+      <div v-if="estudiantes.length === 0" class="vacio">
         Aún no hay estudiantes
       </div>
 
+      <div v-else-if="estudiantesFiltrados().length === 0" class="vacio">
+        No hay estudiantes con esos filtros
+      </div>
+
       <div v-else>
-        <div v-for="est in estudiantes" :key="est.id">
+        <div v-for="est in estudiantesFiltrados()" :key="est.id">
           <strong>
             {{ est.nombre }}
             <span v-if="est.calificacion === 10">⭐</span>
@@ -104,7 +126,6 @@
             −1
           </button>
 
-
           <button @click="subirNota(est)" :disabled="est.calificacion === 10">
             +1
           </button>
@@ -114,12 +135,15 @@
           </button>
         </div>
       </div>
+
+      <button v-show="estudiantes.length > 0" :disabled="estudiantes.length === 0" @click="borrarTodo()">
+        Borrar todo
+      </button>
     </section>
 
   </div>
 
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
 
   <script src="app.js"></script>
 </body>
