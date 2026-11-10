@@ -3,7 +3,12 @@
 Aplicación web hecha con Vue.js 3 para gestionar los estudiantes de un curso. Trabajo en pareja.
 
 ## Cómo ejecutar
-Abrir `index.html` en el navegador (o con la extensión Live Server de VS Code). Vue.js 3 se carga desde CDN, por lo que no hay que instalar nada.
+Proyecto Vue 3 (Composition API) creado con Vite.
+
+```
+npm install
+npm run dev
+```
 
 ## Funcionalidades
 - Formulario con validaciones (nombre, carrera y calificación), sin duplicados y con cupo máximo de 10 estudiantes.
